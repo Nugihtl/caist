@@ -6,10 +6,6 @@ import argparse
 import importlib
 import sys
 
-from PySide6.QtWidgets import QApplication
-
-from app.main_window import MainWindow
-
 DEPENDENCIES = [
     ("PySide6.QtWidgets", "PySide6.QtWidgets"),
     ("PySide6.QtWebEngineWidgets", "PySide6.QtWebEngineWidgets"),
@@ -50,18 +46,23 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.check:
-        print("=" * 60)
-        print("CAIST — Verifikasi Inisialisasi Stage 1")
-        print("Python:", sys.version)
-        print("=" * 60)
+        print("=" * 60, flush=True)
+        print("CAIST — Verifikasi Inisialisasi Stage 1", flush=True)
+        print("Python:", sys.version, flush=True)
+        print("=" * 60, flush=True)
         semua_lulus = True
         for nama, modul, status in check_dependencies():
-            print(f"[{status}] {nama} ({modul})")
+            print(f"[{status}] {nama} ({modul})", flush=True)
             if status != "PASS":
                 semua_lulus = False
-        print("=" * 60)
-        print("Hasil:", "SEMUA PASS" if semua_lulus else "ADA YANG GAGAL")
+        print("=" * 60, flush=True)
+        print("Hasil:", "SEMUA PASS" if semua_lulus else "ADA YANG GAGAL", flush=True)
         return 0 if semua_lulus else 1
+
+    # Impor GUI hanya saat menjalankan aplikasi (bukan saat --check).
+    from PySide6.QtWidgets import QApplication
+
+    from app.main_window import MainWindow
 
     app = QApplication(sys.argv)
     window = MainWindow()
