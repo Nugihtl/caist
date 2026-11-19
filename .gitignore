@@ -60,6 +60,9 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
+# Local source datasets; selected derived map/data products are tracked explicitly.
+data/raw/
+
 # SQLite databases
 *.db
 *.sqlite
