@@ -27,6 +27,10 @@ ASSETS_DIR = ROOT_DIR / "assets"
 # Berkas peta dan database
 MAP_FILE = MAP_DIR / "index.html"
 DATABASE_PATH = DATA_DIR / "caist.sqlite"
+BOUNDARIES_FILE = (
+    DATA_DIR / "processed" / "spatial" / "batas_kecamatan_bandung_raya.geojson"
+)
+RIVERS_FILE = DATA_DIR / "raw" / "osm" / "jaringan_sungai_bandung_raya.geojson"
 
 # Wilayah Bandung Raya
 BANDUNG_RAYA = {
@@ -42,7 +46,7 @@ BANDUNG_RAYA = {
 }
 
 # Database
-DB_VERSION = 1
+DB_VERSION = 2
 
 # Sumber data (status integrasi)
 DATA_SOURCES = {

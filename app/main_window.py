@@ -19,7 +19,6 @@ from PySide6.QtWidgets import (
 from config.settings import WINDOW_HEIGHT, WINDOW_TITLE, WINDOW_WIDTH
 from app.widgets.empty_state import EmptyStateWidget
 from app.widgets.header import HeaderWidget
-from app.widgets.map_placeholder import MapPlaceholderWidget
 from app.widgets.sidebar import SidebarWidget
 
 from app.pages.dashboard_page import DashboardPage
@@ -27,6 +26,7 @@ from app.pages.evaluation_page import EvaluationPage
 from app.pages.monitoring_page import MonitoringPage
 from app.pages.prediction_page import PredictionPage
 from app.pages.region_page import RegionPage
+from src.database.ui_readers import load_ui_snapshot
 
 
 class MainWindow(QMainWindow):
@@ -45,8 +45,15 @@ class MainWindow(QMainWindow):
         self.resize(WINDOW_WIDTH, WINDOW_HEIGHT)
         self.setMinimumSize(1024, 700)
 
+        self.data_snapshot = load_ui_snapshot()
         self._build_ui()
         self._apply_stylesheet()
+        if self.data_snapshot.get("connected"):
+            self.header.set_status(f"SQLite terhubung | {len(self.data_snapshot['regions'])} kecamatan | versi {self.data_snapshot['data_version']}")
+            self.statusBar().showMessage(f"Data lokal terhubung: {len(self.data_snapshot['regions'])} kecamatan | SQLite {self.data_snapshot['data_version']}")
+        else:
+            self.header.set_status("Database lokal tidak terhubung")
+            self.statusBar().showMessage(f"Database lokal tidak terhubung: {self.data_snapshot.get('error') or 'data belum tersedia'}")
         self._connect_signals()
 
         # Tampilkan halaman Dashboard secara default
@@ -82,10 +89,10 @@ class MainWindow(QMainWindow):
         # Stacked widget halaman
         self.stack = QStackedWidget()
 
-        self.page_dashboard = DashboardPage()
+        self.page_dashboard = DashboardPage(data_snapshot=self.data_snapshot)
         self.page_monitoring = MonitoringPage()
-        self.page_prediction = PredictionPage()
-        self.page_region = RegionPage()
+        self.page_prediction = PredictionPage(data_snapshot=self.data_snapshot)
+        self.page_region = RegionPage(data_snapshot=self.data_snapshot)
         self.page_evaluation = EvaluationPage()
 
         self.stack.addWidget(self.page_dashboard)
@@ -99,7 +106,6 @@ class MainWindow(QMainWindow):
 
         # Status bar
         self.statusBar().setObjectName("statusBar")
-        self.statusBar().showMessage("Mode Pengembangan — Data Belum Terhubung")
 
     def _apply_stylesheet(self) -> None:
         """Muat QSS tema dari app/styles/theme.qss."""

@@ -11,11 +11,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from config.settings import BANDUNG_RAYA
+from src.database.ui_readers import load_ui_snapshot
 from app.widgets.empty_state import EmptyStateWidget
-from app.widgets.map_placeholder import MapPlaceholderWidget
+from app.widgets.leaflet_map import LeafletMapWidget
 from app.widgets.section_header import SectionHeader
-from app.widgets.status_badge import StatusBadge
 from app.widgets.summary_card import SummaryCard
 
 
@@ -26,8 +25,9 @@ class DashboardPage(QWidget):
     tanpa menampilkan data fiktif karena backend belum terintegrasi.
     """
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent=None, data_snapshot=None) -> None:
         super().__init__(parent)
+        self.data_snapshot = data_snapshot if data_snapshot is not None else load_ui_snapshot()
         self._build_ui()
 
     def _build_ui(self) -> None:
@@ -46,29 +46,32 @@ class DashboardPage(QWidget):
         cards = QGridLayout()
         cards.setSpacing(16)
 
-        wilayah_count = len(BANDUNG_RAYA.get("kecamatan", []))
+        snapshot = self.data_snapshot
+        history = snapshot.get("history", {})
+        daily = snapshot.get("daily", {})
+        region_count = len(snapshot.get("regions", [])) if snapshot.get("connected") else 0
 
         self.card_wilayah = SummaryCard(
-            value=str(wilayah_count),
-            label="Wilayah Pemantauan",
+            value=str(region_count) if snapshot.get("connected") else "-",
+            label="Kecamatan Terhubung",
         )
         self.card_wilayah.set_icon("🗺️")
 
         self.card_station = SummaryCard(
-            value="Belum tersedia",
-            label="Stasiun Aktif",
+            value=f"{history.get('district_days', 0):,}" if snapshot.get("connected") else "-",
+            label="Kecamatan-Hari Banjir BNPB",
         )
         self.card_station.set_icon("📡")
 
         self.card_risk = SummaryCard(
-            value="Belum tersedia",
-            label="Wilayah Potensi Tinggi",
+            value=f"{history.get('source_rows', 0):,}" if snapshot.get("connected") else "-",
+            label="Baris Sumber BNPB",
         )
         self.card_risk.set_icon("⚠️")
 
         self.card_update = SummaryCard(
-            value="Belum terhubung",
-            label="Status Pembaruan Data",
+            value=(f"{daily.get('date_start', '-')} to {daily.get('date_end', '-')}" if snapshot.get("connected") else "Tidak terhubung"),
+            label="Rentang CHIRPS",
         )
         self.card_update.set_icon("🔄")
 
@@ -86,14 +89,14 @@ class DashboardPage(QWidget):
         middle = QHBoxLayout()
         middle.setSpacing(20)
 
-        # Peta placeholder - mengambil 2/3 lebar
+        # Peta Leaflet - mengambil 2/3 lebar
         map_section = QVBoxLayout()
         map_section.setSpacing(12)
         map_title = QLabel("Peta Interaktif Bandung Raya")
         map_title.setObjectName("sectionTitle")
         map_section.addWidget(map_title)
 
-        self.map_placeholder = MapPlaceholderWidget()
+        self.map_placeholder = LeafletMapWidget()
         map_section.addWidget(self.map_placeholder, stretch=1)
         map_section.setStretch(0, 0)
         map_section.setStretch(1, 1)
@@ -144,8 +147,10 @@ class DashboardPage(QWidget):
 
         self.monitoring_empty = EmptyStateWidget(
             title="Data monitoring belum terhubung.",
-            subtitle="Sumber data hidrologi (curah hujan, tinggi muka air, debit sungai)"
-            " akan ditampilkan setelah integrasi BBWS Citarum FFWS dilakukan.",
+            subtitle=(
+                "Ringkasan curah hujan historis tersedia di kartu Dashboard. "
+                "Data tinggi muka air dan debit sungai real-time belum tersedia karena integrasi BBWS Citarum FFWS belum dilakukan."
+            ),
         )
         mon_section.addWidget(self.monitoring_empty)
 

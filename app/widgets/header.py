@@ -42,7 +42,7 @@ class HeaderWidget(QWidget):
         layout.addStretch()
 
         # Kolom kanan: status aplikasi
-        self.status_label = QLabel("Mode Pengembangan — Data Belum Terhubung")
+        self.status_label = QLabel("Memeriksa koneksi database...")
         self.status_label.setObjectName("headerStatus")
         layout.addWidget(self.status_label)
 
