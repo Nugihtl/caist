@@ -1,0 +1,410 @@
+/* ============================================================
+   CAIST — Tema Visual Aplikasi Desktop
+   Flood Prediction & Monitoring System
+   ============================================================ */
+
+/* ---------- Warna Dasar ---------- */
+* {
+    /* Warna teks utama */
+    -caist-text-primary: #1e293b;
+    /* Warna teks sekunder */
+    -caist-text-secondary: #64748b;
+    /* Warna teks terang */
+    -caist-text-light: #94a3b8;
+    /* Background utama aplikasi */
+    -caist-bg-primary: #f1f5f9;
+    /* Background kertas/card */
+    -caist-bg-card: #ffffff;
+    /* Warna primer: deep navy */
+    -caist-primary: #1e3a5f;
+    /* Warna primer variant (hover/pressed) */
+    -caist-primary-hover: #154a7a;
+    /* Warna sekunder: teal */
+    -caist-secondary: #2a9d8f;
+    /* Aksen risiko */
+    -caist-risk-high: #c0392b;
+    -caist-risk-medium: #e67e22;
+    -caist-risk-low: #27ae60;
+    -caist-border: #e2e8f0;
+    -caist-shadow: rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- Jendela Utama ---------- */
+QMainWindow {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    font-size: 13px;
+}
+
+/* ---------- Panel Konten Utama ---------- */
+#centralPanel {
+    background-color: #f1f5f9;
+}
+
+/* ---------- Sidebar ---------- */
+#sidebar {
+    background-color: #1e3a5f;
+    color: #ffffff;
+    min-width: 240px;
+    max-width: 240px;
+    border: none;
+}
+
+#sidebarBrand {
+    background-color: #153352;
+    color: #ffffff;
+    min-height: 64px;
+    border-bottom: 1px solid #2d527a;
+    padding: 16px 20px;
+}
+
+#sidebarBrandLabel {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    background: transparent;
+}
+
+#sidebarBrandSub {
+    color: #94a3b8;
+    font-size: 11px;
+    background: transparent;
+}
+
+#sidebarMenu {
+    background: transparent;
+    padding: 12px 8px;
+}
+
+QListWidget#sidebarMenu {
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+QListWidget::item {
+    background: transparent;
+    color: #cbd5e1;
+    border: none;
+    padding: 12px 16px;
+    margin: 2px 4px;
+    border-radius: 8px;
+    font-size: 13px;
+    min-height: 40px;
+}
+
+QListWidget::item#sidebarItem:hover {
+    background-color: #2d527a;
+    color: #ffffff;
+}
+
+QListWidget::item#sidebarItem:selected {
+    background-color: #2a9d8f;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+QListWidget::item#sidebarItem:selected:hover {
+    background-color: #248578;
+}
+
+#sidebarIcon {
+    min-width: 20px;
+    max-width: 20px;
+    margin-right: 10px;
+}
+
+/* ---------- Header ---------- */
+#header {
+    background-color: #ffffff;
+    color: #1e293b;
+    min-height: 64px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+#headerTitle {
+    color: #1e3a5f;
+    font-size: 18px;
+    font-weight: bold;
+    background: transparent;
+}
+
+#headerSubtitle {
+    color: #64748b;
+    font-size: 12px;
+    background: transparent;
+}
+
+#headerStatus {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: bold;
+    background: transparent;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+/* ---------- Konten Halaman ---------- */
+#pageContainer {
+    background-color: #f1f5f9;
+}
+
+#pageScrollArea {
+    background-color: #f1f5f9;
+    border: none;
+}
+
+QScrollArea {
+    border: none;
+    background-color: #f1f5f9;
+}
+
+/* ---------- Section Header ---------- */
+#sectionHeader {
+    background: transparent;
+    margin-bottom: 16px;
+}
+
+#sectionTitle {
+    color: #1e3a5f;
+    font-size: 20px;
+    font-weight: bold;
+    background: transparent;
+}
+
+#sectionDescription {
+    color: #64748b;
+    font-size: 13px;
+    background: transparent;
+}
+
+/* ---------- Summary Card ---------- */
+#summaryCard {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 120px;
+}
+
+#summaryCard:hover {
+    border-color: #2a9d8f;
+}
+
+#summaryCardValue {
+    color: #1e3a5f;
+    font-size: 28px;
+    font-weight: bold;
+    background: transparent;
+}
+
+#summaryCardLabel {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: bold;
+    background: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#summaryCardIcon {
+    min-width: 32px;
+    max-width: 32px;
+    color: #2a9d8f;
+}
+
+/* ---------- Status Badge ---------- */
+#statusBadge {
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #64748b;
+    border: none;
+}
+
+#statusBadge[status="available"] {
+    background-color: #27ae60;
+}
+
+#statusBadge[status="unavailable"] {
+    background-color: #c0392b;
+}
+
+#statusBadge[status="pending"] {
+    background-color: #e67e22;
+}
+
+/* ---------- Map Placeholder ---------- */
+#mapPlaceholder {
+    background-color: #ffffff;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    color: #64748b;
+    font-size: 14px;
+    min-height: 400px;
+}
+
+#mapPlaceholderTitle {
+    color: #1e3a5f;
+    font-size: 16px;
+    font-weight: bold;
+    background: transparent;
+}
+
+#mapPlaceholderSubtitle {
+    color: #64748b;
+    font-size: 12px;
+    background: transparent;
+}
+
+/* ---------- Empty State ---------- */
+#emptyState {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    color: #64748b;
+    padding: 40px 24px;
+    min-height: 300px;
+}
+
+#emptyStateTitle {
+    color: #1e3a5f;
+    font-size: 16px;
+    font-weight: bold;
+    background: transparent;
+}
+
+#emptyStateSubtitle {
+    color: #94a3b8;
+    font-size: 12px;
+    background: transparent;
+}
+
+/* ---------- Tombol Aksi Utama ---------- */
+QPushButton#primaryButton {
+    background-color: #1e3a5f;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    min-height: 36px;
+}
+
+QPushButton#primaryButton:hover {
+    background-color: #154a7a;
+}
+
+QPushButton#primaryButton:pressed {
+    background-color: #0d355e;
+}
+
+QPushButton#primaryButton:disabled {
+    background-color: #94a3b8;
+    color: #e2e8f0;
+}
+
+QPushButton#secondaryButton {
+    background-color: #ffffff;
+    color: #1e3a5f;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    min-height: 36px;
+}
+
+QPushButton#secondaryButton:hover {
+    border-color: #1e3a5f;
+    background-color: #f8fafc;
+}
+
+/* ---------- Tabel ---------- */
+QTableView {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    gridline-color: #f1f5f9;
+    selection-background-color: #e0f2f1;
+    selection-color: #1e3a5f;
+}
+
+QTableView::item {
+    padding: 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+QTableView::item:selected {
+    background-color: #e0f2f1;
+}
+
+QHeaderView::section {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* ---------- Status Bar ---------- */
+#statusBar {
+    background-color: #ffffff;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+    min-height: 28px;
+    padding: 4px 12px;
+}
+
+/* ---------- Scrollbar ---------- */
+QScrollBar:vertical {
+    background-color: #f1f5f9;
+    width: 12px;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #cbd5e1;
+    min-height: 24px;
+    border-radius: 6px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #94a3b8;
+}
+
+QScrollBar:horizontal {
+    background-color: #f1f5f9;
+    height: 12px;
+    margin: 0;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: #cbd5e1;
+    min-width: 24px;
+    border-radius: 6px;
+}
+
+/* ---------- Tooltip ---------- */
+QToolTip {
+    background-color: #1e293b;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+/* ---------- Frame Grup ---------- */
+#groupFrame {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
