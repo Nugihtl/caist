@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 from app.widgets.empty_state import EmptyStateWidget
 from app.widgets.section_header import SectionHeader
 from app.widgets.status_badge import StatusBadge
+from src.database.ui_readers import load_ui_snapshot
 
 
 class PredictionPage(QWidget):
@@ -26,8 +27,9 @@ class PredictionPage(QWidget):
     Tombol prediksi dinonaktifkan karena model belum tersedia.
     """
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent=None, data_snapshot=None) -> None:
         super().__init__(parent)
+        self.data_snapshot = data_snapshot if data_snapshot is not None else load_ui_snapshot()
         self._build_ui()
 
     def _build_ui(self) -> None:
@@ -78,14 +80,13 @@ class PredictionPage(QWidget):
         wilayah_label.setObjectName("sectionTitle")
 
         self.wilayah_combo = QComboBox()
-        self.wilayah_combo.addItems(
-            [
-                "Kota Bandung",
-                "Kabupaten Bandung",
-                "Kabupaten Bandung Barat",
-                "Kota Cimahi",
-            ]
-        )
+        for region in self.data_snapshot.get("regions", []):
+            self.wilayah_combo.addItem(
+                f"{region['district_name']} - {region['parent_name']}",
+                region["district_code"],
+            )
+        if self.wilayah_combo.count() == 0:
+            self.wilayah_combo.addItem("Database wilayah belum tersedia", None)
         self.wilayah_combo.setMinimumWidth(260)
 
         # Tanggal prediksi
